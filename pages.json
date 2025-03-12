@@ -29,6 +29,12 @@
 			"style": {
 				"navigationBarTitleText": "UTS 原生插件"
 			}
+		},
+		{
+			"path": "pages/sample/test-uts",
+			"style": {
+				"navigationBarTitleText": "UTS控件测试"
+			}
 		}
 	],
 	"globalStyle": {

@@ -44,6 +44,12 @@
 					name:'UTS 原生插件',
 					open:false,
 					url:'/pages/sample/uts_toast'
+				},
+				{
+					id:'test_uts',
+					name:'UTS控件测试',
+					open:false,
+					url:'/pages/sample/test-uts'
 				}],
 				navigateFlag: false
 			}

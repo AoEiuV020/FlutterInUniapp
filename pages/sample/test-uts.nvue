@@ -1,28 +1,22 @@
 <template>
 	<view class="content">
-		<text class="title">UTS控件测试页面</text>
-		
-		<!-- 使用UTS自定义控件 -->
+		<!-- 底层UTS自定义控件 -->
 		<!-- #ifdef APP-PLUS -->
-		<view class="button-container">
-			<uts-button 
-				ref="utsButton" 
-				:buttontext="buttonText" 
-				@buttonclick="onButtonClick"
-				class="uts-button">
-			</uts-button>
-		</view>
+		<uts-flutter ref="flutterView" class="flutter-view"></uts-flutter>
 		<!-- #endif -->
 		
-		<!-- #ifndef APP-PLUS -->
-		<view class="button-container">
-			<button type="primary" @click="onButtonClick" class="fallback-button">{{buttonText}}（模拟按钮）</button>
+		<!-- 上层UI元素 -->
+		<view class="top-layer">
+			<text class="title">Flutter会议测试</text>
+			
+			<view class="button-container">
+				<button type="primary" @click="onButtonClick" class="action-button">启动Flutter会议</button>
+			</view>
+			
+			<text class="result" v-if="result">{{result}}</text>
+			
+			<text class="debug-info">平台: {{platform}}</text>
 		</view>
-		<!-- #endif -->
-		
-		<text class="result" v-if="result">{{result}}</text>
-		
-		<text class="debug-info">平台: {{platform}}</text>
 	</view>
 </template>
 
@@ -30,7 +24,6 @@
 	export default {
 		data() {
 			return {
-				buttonText: '点击测试UTS控件',
 				result: '',
 				platform: ''
 			}
@@ -45,20 +38,20 @@
 			console.log('当前平台: APP-PLUS - ' + plus.os.name);
 			// #endif
 			
-			// #ifdef H5
-			this.platform = 'H5';
-			console.log('当前平台: H5');
+			// #ifndef APP-PLUS
+			this.platform = '非APP平台';
+			console.log('当前平台: 非APP平台');
 			// #endif
 			
 			// 检查UTS控件是否可用
 			setTimeout(() => {
 				// #ifdef APP-PLUS
-				if (this.$refs.utsButton) {
-					console.log('UTS控件已加载');
-					this.result = 'UTS控件已加载，请点击测试';
+				if (this.$refs.flutterView) {
+					console.log('Flutter会议控件已加载');
+					this.result = 'Flutter会议控件已加载，请点击按钮启动';
 				} else {
-					console.log('UTS控件未加载');
-					this.result = 'UTS控件未加载，请检查配置';
+					console.log('Flutter会议控件未加载');
+					this.result = 'Flutter会议控件未加载，请检查配置';
 				}
 				// #endif
 			}, 1000);
@@ -71,17 +64,17 @@
 				
 				// #ifdef APP-PLUS
 				// 调用UTS控件的方法
-				if (this.$refs.utsButton) {
-					this.$refs.utsButton.doSomething('来自NVUE的调用');
-					console.log('调用了UTS控件的doSomething方法');
+				if (this.$refs.flutterView) {
+					this.$refs.flutterView.start();
+					console.log('启动了Flutter会议');
 				} else {
-					console.log('UTS控件不可用，无法调用方法');
+					console.log('Flutter会议控件不可用，无法启动');
 				}
 				// #endif
 				
 				// 显示提示
 				uni.showToast({
-					title: '按钮点击成功',
+					title: '启动成功',
 					icon: 'success'
 				});
 			}
@@ -92,9 +85,24 @@
 <style>
 	.content {
 		flex: 1;
+		position: relative;
+	}
+	
+	/* 底层UTS控件样式 */
+	.flutter-view {
+		position: absolute;
+		top: 0;
+		left: 0;
+		right: 0;
+		bottom: 0;
+	}
+	
+	/* 上层UI元素样式 */
+	.top-layer {
+		flex: 1;
 		padding: 20px;
-		background-color: #F8F8F8;
 		align-items: center;
+		z-index: 1;
 	}
 	
 	.title {
@@ -106,16 +114,10 @@
 	
 	.button-container {
 		width: 300px;
-		height: 50px;
 		margin-bottom: 20px;
 	}
 	
-	.uts-button {
-		width: 300px;
-		height: 50px;
-	}
-	
-	.fallback-button {
+	.action-button {
 		width: 300px;
 		height: 50px;
 	}

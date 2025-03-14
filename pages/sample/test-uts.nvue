@@ -1,82 +1,22 @@
 <template>
-	<view class="content">
-		<!-- 底层UTS自定义控件 -->
-		<!-- #ifdef APP-PLUS -->
-		<uts-flutter ref="flutterView" class="flutter-view"></uts-flutter>
-		<!-- #endif -->
+	<div class="content">
+		<!-- UTS自定义控件 -->
+		<uts-flutter ref="simpleView" style="width:200;height:100"></uts-flutter>	
 		
-		<!-- 上层UI元素 -->
-		<view class="top-layer">
-			<text class="title">Flutter会议测试</text>
-			
-			<view class="button-container">
-				<button type="primary" @click="onButtonClick" class="action-button">启动Flutter会议</button>
-			</view>
-			
-			<text class="result" v-if="result">{{result}}</text>
-			
-			<text class="debug-info">平台: {{platform}}</text>
-		</view>
-	</view>
+		<!-- 按钮 -->
+		<button type="default" @click="onTestClick" class="action-button">测试Simple</button>
+	</div>
 </template>
 
 <script>
 	export default {
-		data() {
-			return {
-				result: '',
-				platform: ''
-			}
-		},
 		onLoad() {
-			// 页面加载时的逻辑
-			console.log('nvue页面加载完成');
-			
-			// 获取平台信息
-			// #ifdef APP-PLUS
-			this.platform = 'APP-PLUS: ' + plus.os.name;
-			console.log('当前平台: APP-PLUS - ' + plus.os.name);
-			// #endif
-			
-			// #ifndef APP-PLUS
-			this.platform = '非APP平台';
-			console.log('当前平台: 非APP平台');
-			// #endif
-			
-			// 检查UTS控件是否可用
-			setTimeout(() => {
-				// #ifdef APP-PLUS
-				if (this.$refs.flutterView) {
-					console.log('Flutter会议控件已加载');
-					this.result = 'Flutter会议控件已加载，请点击按钮启动';
-				} else {
-					console.log('Flutter会议控件未加载');
-					this.result = 'Flutter会议控件未加载，请检查配置';
-				}
-				// #endif
-			}, 1000);
+			console.log('页面加载完成');
 		},
 		methods: {
-			// 按钮点击事件处理函数
-			onButtonClick() {
-				console.log('按钮被点击了！');
-				this.result = '按钮点击成功！时间: ' + new Date().toLocaleTimeString();
-				
-				// #ifdef APP-PLUS
-				// 调用UTS控件的方法
-				if (this.$refs.flutterView) {
-					this.$refs.flutterView.start();
-					console.log('启动了Flutter会议');
-				} else {
-					console.log('Flutter会议控件不可用，无法启动');
-				}
-				// #endif
-				
-				// 显示提示
-				uni.showToast({
-					title: '启动成功',
-					icon: 'success'
-				});
+			onTestClick() {
+				console.log('按钮被点击');
+				this.$refs.simpleView.start();
 			}
 		}
 	}
@@ -85,59 +25,13 @@
 <style>
 	.content {
 		flex: 1;
-		position: relative;
-	}
-	
-	/* 底层UTS控件样式 */
-	.flutter-view {
-		position: absolute;
-		top: 0;
-		left: 0;
-		right: 0;
-		bottom: 0;
-	}
-	
-	/* 上层UI元素样式 */
-	.top-layer {
-		flex: 1;
-		padding: 20px;
 		align-items: center;
-		z-index: 1;
-	}
-	
-	.title {
-		font-size: 18px;
-		color: #333333;
-		margin-bottom: 40px;
-		margin-top: 40px;
-	}
-	
-	.button-container {
-		width: 300px;
-		margin-bottom: 20px;
+		justify-content: center;
 	}
 	
 	.action-button {
 		width: 300px;
 		height: 50px;
-	}
-	
-	.result {
-		margin-top: 30px;
-		font-size: 14px;
-		color: #007AFF;
-		padding: 10px;
-		border-width: 1px;
-		border-color: #DDDDDD;
-		border-radius: 5px;
-		background-color: #FFFFFF;
-		width: 300px;
-		text-align: center;
-	}
-	
-	.debug-info {
-		margin-top: 20px;
-		font-size: 12px;
-		color: #999999;
+		margin-top: 50px;
 	}
 </style> 

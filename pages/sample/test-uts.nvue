@@ -1,10 +1,12 @@
 <template>
 	<div class="content">
-		<!-- UTS自定义控件 -->
-		<uts-flutter ref="simpleView" style="width:200;height:100"></uts-flutter>	
+		<!-- UTS自定义控件，铺满屏幕并置于底部 -->
+		<uts-flutter ref="simpleView" class="flutter-container"></uts-flutter>	
 		
-		<!-- 按钮 -->
-		<button type="default" @click="onTestClick" class="action-button">测试Simple</button>
+		<!-- 按钮，放在顶部以便于操作 -->
+		<div class="button-container">
+			<button type="default" @click="onTestClick" class="action-button">测试Flutter</button>
+		</div>
 	</div>
 </template>
 
@@ -25,6 +27,24 @@
 <style>
 	.content {
 		flex: 1;
+		position: relative;
+	}
+	
+	.flutter-container {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+		z-index: 1;
+	}
+	
+	.button-container {
+		position: absolute;
+		top: 100px;
+		left: 0;
+		right: 0;
+		z-index: 10;
 		align-items: center;
 		justify-content: center;
 	}
@@ -32,6 +52,5 @@
 	.action-button {
 		width: 300px;
 		height: 50px;
-		margin-top: 50px;
 	}
 </style> 

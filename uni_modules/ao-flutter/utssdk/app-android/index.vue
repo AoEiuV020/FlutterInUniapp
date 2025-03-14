@@ -8,7 +8,7 @@
   import FrameLayout from 'android.widget.FrameLayout';
   
   // 导入自定义的Kotlin类
-  import SimpleFrameLayout from 'simple.SimpleFrameLayout';
+  import FlutterFrameLayout from 'flutter.FlutterFrameLayout';
   
   // 定义组件
   export default {
@@ -32,7 +32,8 @@
       // 对外公开的start方法
       start() {
         console.log("UTS-Flutter: start方法被调用");
-      }
+          getHostView().start();
+				}
     },
     
     // 生命周期方法
@@ -44,14 +45,11 @@
       console.log("UTS-Flutter: NVBeforeLoad生命周期");
     },
     
-    NVLoad() : FrameLayout {
+    NVLoad() : FlutterFrameLayout {
       console.log("UTS-Flutter: NVLoad生命周期");
       
       // 创建自定义的Kotlin实现的FrameLayout
-      const flutterView = new SimpleFrameLayout($androidContext!);
-      
-      // 设置背景颜色（半透明）
-      flutterView.setBackgroundColor(0x33000000);
+      const flutterView = new FlutterFrameLayout($androidContext!);
       
       // 发送准备完成事件
       this.$emit("viewready");

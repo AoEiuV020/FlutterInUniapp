@@ -17,6 +17,7 @@ buildscript {
 }
 
 allprojects {
+    project.layout.buildDirectory = rootProject.file("build/${project.path.replace(':', '.')}")
     String storageUrl = System.env.FLUTTER_STORAGE_BASE_URL ?: "https://storage.googleapis.com"
     repositories {
         maven {

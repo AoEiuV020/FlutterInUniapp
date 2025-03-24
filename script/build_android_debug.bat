@@ -5,7 +5,7 @@ set PROJECT_ROOT=%~dp0..
 
 :: 设置相关路径变量
 set ANDROID_DIR=%PROJECT_ROOT%\android
-set APK_OUTPUT_DIR=%ANDROID_DIR%\app\build\outputs\apk\debug
+set APK_OUTPUT_DIR=%ANDROID_DIR%\build\.app\outputs\apk\debug
 set APK_FILE=%APK_OUTPUT_DIR%\app-debug.apk
 set TARGET_DIR=%PROJECT_ROOT%\unpackage\debug
 set TARGET_APK=%TARGET_DIR%\android_debug.apk

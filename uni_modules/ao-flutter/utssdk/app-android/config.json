@@ -1,5 +1,12 @@
 {
 	"dependencies": [
-		"androidx.fragment:fragment:1.1.0"
-	]
+		"androidx.fragment:fragment:1.1.0",
+		"com.aoeiuv020.appmodule:flutter_release:1.0"
+	],
+	"project": {
+		"repositories": [
+			"maven { url rootProject.file('D:/aoeiuv020/git/FlutterInUniapp/flutter/build/host/outputs/repo') } //repoFlutter",
+			"maven { url 'https://storage.googleapis.com/download.flutter.io' }"
+		]
+	}
 }

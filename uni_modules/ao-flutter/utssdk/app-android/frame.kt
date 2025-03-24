@@ -16,7 +16,7 @@ import androidx.fragment.app.FragmentTransaction
 class FlutterFrameLayout(context: Context) : FrameLayout(context) {
     
     private val TAG = "FlutterContainer"
-    private lateinit var flutterFragment: Fragment
+    private lateinit var flutterFragment: SubFlutterFragment
     
     init {
         Log.d(TAG, "初始化Flutter容器")
@@ -33,9 +33,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
         
         // 使用反射创建Fragment
         try {
-            val fragmentClass = Class.forName("flutter.SubFlutterFragment")
-            val createMethod = fragmentClass.getMethod("create")
-            flutterFragment = createMethod.invoke(null) as Fragment
+            flutterFragment = SubFlutterFragment.create()
             
             // 确保FrameLayout有一个ID，否则Fragment无法添加
             if (id == NO_ID) {
@@ -73,7 +71,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
     /**
      * 获取Flutter Fragment
      */
-    fun getFlutterFragment(): Fragment {
+    fun getFlutterFragment(): SubFlutterFragment {
         return flutterFragment
     }
 } 

@@ -4,7 +4,7 @@
 set PROJECT_ROOT=%~dp0..
 
 :: 设置相关路径变量
-set FLUTTER_DIR=%PROJECT_ROOT%\flutter
+set FLUTTER_DIR=%PROJECT_ROOT%\flutter\packages\meeting_module
 set OUTPUT_DIR=%FLUTTER_DIR%\build\host\outputs\repo
 
 :: 进入Flutter目录

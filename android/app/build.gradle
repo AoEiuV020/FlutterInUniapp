@@ -70,7 +70,6 @@ repositories {
     }
 }
 dependencies {
-    implementation 'com.aoeiuv020.appmodule:flutter_release:1.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10'
     compileOnly 'androidx.core:core-ktx:1.6.0'
     compileOnly 'org.jetbrains.kotlin:kotlin-stdlib-jdk7:1.6.0'
@@ -100,6 +99,7 @@ dependencies {
     implementation project(':uniplugin_richalert')
     // uts原生插件
     implementation project(':uts-toast')
+    implementation project(':ao-flutter')
     // uts依赖
     implementation "com.squareup.okhttp3:okhttp:3.12.12"
     implementation "androidx.core:core-ktx:1.6.0"

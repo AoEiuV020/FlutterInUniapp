@@ -1,5 +1,6 @@
 package flutter
 import io.flutter.embedding.android.FlutterFragment
+import io.flutter.embedding.android.RenderMode
 import io.flutter.embedding.engine.FlutterEngine
 import io.flutter.embedding.engine.plugins.util.GeneratedPluginRegister
 
@@ -8,7 +9,9 @@ open class SubFlutterFragment : FlutterFragment() {
     companion object {
         @JvmStatic
         fun create(): SubFlutterFragment =
-            NewEngineFragmentBuilder(SubFlutterFragment::class.java).build()
+            NewEngineFragmentBuilder(SubFlutterFragment::class.java)
+                .renderMode(RenderMode.texture)
+                .build()
     }
 
     override fun configureFlutterEngine(flutterEngine: FlutterEngine) {

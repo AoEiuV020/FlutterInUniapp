@@ -31,8 +31,16 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
         // 直接强制使用FragmentActivity
         val activity = context as FragmentActivity
         
-        // 使用反射创建Fragment
         try {
+            // 使用固定的fragmentTag
+            val fragmentTag = "flutter_fragment"
+            val existingFragment = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
+            if (existingFragment != null && existingFragment is SubFlutterFragment) {
+                flutterFragment = existingFragment
+                return
+            }
+            
+            // 如果不存在，则创建新的Fragment
             flutterFragment = SubFlutterFragment.create()
             
             // 确保FrameLayout有一个ID，否则Fragment无法添加
@@ -41,7 +49,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
             }
             
             val transaction = activity.supportFragmentManager.beginTransaction()
-            transaction.replace(id, flutterFragment)
+            transaction.replace(id, flutterFragment, fragmentTag)
             transaction.commit()
         } catch (e: Exception) {
             Log.e(TAG, "创建Fragment失败", e)
@@ -74,4 +82,4 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
     fun getFlutterFragment(): SubFlutterFragment {
         return flutterFragment
     }
-} 
+}

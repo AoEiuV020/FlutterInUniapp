@@ -26,9 +26,9 @@
 
 ### 开发环境要求
 
-- Android Studio
-- Flutter SDK
-- HBuilderX
+- Android Studio Ladybug Feature Drop | 2024.2.2
+- Flutter SDK 3.29.2
+- HBuilderX 4.45
 
 ### 构建步骤
 

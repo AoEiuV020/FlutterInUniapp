@@ -32,14 +32,35 @@
 
 ### 构建步骤
 
-1. 构建Flutter AAR：
+1. 更新Flutter仓库路径：
+   config.json只能使用绝对路径所以加了个脚本更新一下，
+   ```
+   script\update_flutter_repo_path.bat
+   ```
+
+2. 构建Flutter AAR：
+   生成安卓依赖仓库，
    ```
    script\build_flutter_aar.bat
    ```
 
-2. 构建Android自定义基座：
+3. 构建uniapp资源：
+   生成打包用的h5资源和插件模块代码，
+   脚本里的UNI_APP_ID必须配置成manifest.json实际appid，
+   ```
+   script\build_uniapp_resources.bat
+   ```
+
+4. 构建Android发布版本：
+   这里打包出来就已经是完整的安卓app了，
+   ```
+   script\build_android_release.bat
+   ```
+
+5. 构建Android自定义基座：
+   这里生成调试包并复制到自定义基座的目录中，供HBuilderX使用，
    ```
    script\build_android_debug.bat
    ```
 
-3. 在HBuilderX中运行uniapp项目，选择自定义基座运行
+6. 在HBuilderX中运行uniapp项目，选择自定义基座运行

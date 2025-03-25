@@ -20,14 +20,15 @@ powershell -Command "(Get-Content '%DCLOUD_CONTROL%') -replace '<hbuilder>', '<h
 cd /d "%ANDROID_DIR%"
 echo 正在构建Android自定义基座...
 start /wait cmd /c gradlew.bat assembleDebug
+set BUILD_STATUS=%ERRORLEVEL%
 
 :: 恢复dcloud_control.xml
 powershell -Command "(Get-Content '%DCLOUD_CONTROL%') -replace '<hbuilder debug=\"true\" syncDebug=\"true\">', '<hbuilder>' | Set-Content '%DCLOUD_CONTROL%'"
 
 :: 检查构建是否成功
-if not exist "%APK_FILE%" (
-    echo Error: APK file not found at %APK_FILE%
-    exit /b 1
+if %BUILD_STATUS% NEQ 0 (
+    echo Error: Build failed with error code %BUILD_STATUS%
+    exit /b %BUILD_STATUS%
 )
 
 :: 创建目标目录（如果不存在）

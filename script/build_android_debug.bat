@@ -23,7 +23,7 @@ if %ERRORLEVEL% NEQ 0 (
 :: 在新窗口中执行gradle命令构建debug APK
 cd /d "%ANDROID_DIR%"
 echo 正在构建Android自定义基座...
-call gradlew.bat assembleDebug
+call gradlew.bat :app:assembleDebug
 set BUILD_STATUS=%ERRORLEVEL%
 
 :: 恢复dcloud_control.xml

@@ -20,7 +20,6 @@ if %ERRORLEVEL% NEQ 0 (
     goto error
 )
 
-:: 在新窗口中执行gradle命令构建debug APK
 cd /d "%ANDROID_DIR%"
 echo 正在构建Android自定义基座...
 call gradlew.bat :app:assembleDebug
@@ -48,7 +47,7 @@ if not exist "%TARGET_DIR%" (
     )
 )
 
-:: 移动并覆盖APK文件
+:: 复制并覆盖APK文件
 copy /y "%APK_FILE%" "%TARGET_APK%"
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to copy APK file

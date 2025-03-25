@@ -11,11 +11,11 @@ set OUTPUT_DIR=%FLUTTER_DIR%\build\host\outputs\repo
 :: 在新窗口中执行flutter命令构建AAR
 cd /d "%FLUTTER_DIR%"
 echo Building Flutter AAR (Release)...
-start /wait cmd /c flutter build aar --no-debug --no-profile
+call flutter build aar --no-debug --no-profile
 
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Flutter AAR build failed!
-    exit /b %ERRORLEVEL%
+    goto error
 )
 
 echo.
@@ -26,3 +26,10 @@ dir /b "%OUTPUT_DIR%"
 
 :: 恢复原目录
 popd
+goto eof
+
+:error
+popd
+exit /b 1
+
+:eof

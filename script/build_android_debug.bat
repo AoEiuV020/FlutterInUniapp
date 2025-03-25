@@ -6,15 +6,23 @@ set PROJECT_ROOT=%CD%
 
 :: 设置相关路径变量
 set ANDROID_DIR=%PROJECT_ROOT%\android
+set APP_ASSETS_DIR=%ANDROID_DIR%\app\src\main\assets
+set DCLOUD_CONTROL=%APP_ASSETS_DIR%\data\dcloud_control.xml
 set APK_OUTPUT_DIR=%ANDROID_DIR%\build\.app\outputs\apk\debug
 set APK_FILE=%APK_OUTPUT_DIR%\app-debug.apk
 set TARGET_DIR=%PROJECT_ROOT%\unpackage\debug
 set TARGET_APK=%TARGET_DIR%\android_debug.apk
 
+:: 添加debug属性
+powershell -Command "(Get-Content '%DCLOUD_CONTROL%') -replace '<hbuilder>', '<hbuilder debug=\"true\" syncDebug=\"true\">' | Set-Content '%DCLOUD_CONTROL%'"
+
 :: 在新窗口中执行gradle命令构建debug APK
 cd /d "%ANDROID_DIR%"
 echo 正在构建Android自定义基座...
 start /wait cmd /c gradlew.bat assembleDebug
+
+:: 恢复dcloud_control.xml
+powershell -Command "(Get-Content '%DCLOUD_CONTROL%') -replace '<hbuilder debug=\"true\" syncDebug=\"true\">', '<hbuilder>' | Set-Content '%DCLOUD_CONTROL%'"
 
 :: 检查构建是否成功
 if not exist "%APK_FILE%" (

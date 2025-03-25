@@ -1,7 +1,8 @@
 @echo off
 
-:: 设置工作目录为项目根目录
-set PROJECT_ROOT=%~dp0..
+:: 保存当前目录并进入项目根目录
+pushd %~dp0..
+set PROJECT_ROOT=%CD%
 
 :: 设置相关路径变量
 set FLUTTER_REPO_DIR=%PROJECT_ROOT%\flutter\build\host\outputs\repo
@@ -22,3 +23,6 @@ if %ERRORLEVEL% NEQ 0 (
 echo.
 echo Successfully updated Flutter repository path in config.json!
 echo New path: %REPO_PATH%
+
+:: 恢复原目录
+popd

@@ -32,16 +32,16 @@
 
 ### 构建步骤
 
-1. 更新Flutter仓库路径：
-   config.json只能使用绝对路径所以加了个脚本更新一下，
-   ```
-   script\update_flutter_repo_path.bat
-   ```
-
-2. 构建Flutter AAR：
+1. 构建Flutter AAR：
    生成安卓依赖仓库，
    ```
    script\build_flutter_aar.bat
+   ```
+
+2. 更新Flutter仓库路径：
+   config.json只能使用绝对路径所以加了个脚本更新一下，
+   ```
+   script\update_flutter_repo_path.bat
    ```
 
 3. 构建uniapp资源：

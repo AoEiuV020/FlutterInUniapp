@@ -17,37 +17,37 @@ import kotlinx.coroutines.CoroutineScope;
 import kotlinx.coroutines.Deferred;
 import kotlinx.coroutines.Dispatchers;
 import kotlinx.coroutines.async;
-open class UtsFlutterComponent : UTSComponent<FlutterFrameLayout> {
+open class AoFlutterComponent : UTSComponent<FlutterFrameLayout> {
     constructor(instance: UniSDKInstance?, parent: AbsVContainer<*>?, componentData: AbsComponentData<*>?) : super(instance, parent, componentData) ;
     override fun created() {
-        console.log("UTS-Flutter: created生命周期");
+        console.log("ao-flutter: created生命周期");
     }
     override fun NVBeforeLoad() {
-        console.log("UTS-Flutter: NVBeforeLoad生命周期");
+        console.log("ao-flutter: NVBeforeLoad生命周期");
     }
     override fun NVLoad(): FlutterFrameLayout {
-        console.log("UTS-Flutter: NVLoad生命周期");
+        console.log("ao-flutter: NVLoad生命周期");
         val flutterView = FlutterFrameLayout(`$androidContext`!!);
         this.`$emit`("viewready");
         return flutterView;
     }
     override fun NVLoaded() {
-        console.log("UTS-Flutter: NVLoaded生命周期");
+        console.log("ao-flutter: NVLoaded生命周期");
     }
     override fun NVLayouted() {
-        console.log("UTS-Flutter: NVLayouted生命周期");
+        console.log("ao-flutter: NVLayouted生命周期");
     }
     override fun NVBeforeUnload() {
-        console.log("UTS-Flutter: NVBeforeUnload生命周期");
+        console.log("ao-flutter: NVBeforeUnload生命周期");
     }
     override fun NVUnloaded() {
-        console.log("UTS-Flutter: NVUnloaded生命周期");
+        console.log("ao-flutter: NVUnloaded生命周期");
     }
     override fun unmounted() {
-        console.log("UTS-Flutter: unmounted生命周期");
+        console.log("ao-flutter: unmounted生命周期");
     }
     @JSMethod(uiThread = false)
     open fun start() {
-        console.log("UTS-Flutter: start方法被调用");
+        console.log("ao-flutter: start方法被调用");
     }
 }

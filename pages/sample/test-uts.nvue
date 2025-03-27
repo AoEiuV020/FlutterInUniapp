@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<!-- UTS自定义控件，铺满屏幕并置于底部 -->
-		<uts-flutter ref="simpleView" class="flutter-container"></uts-flutter>	
+		<ao-flutter ref="simpleView" class="flutter-container"></ao-flutter>	
 		
 		<!-- 按钮，放在顶部以便于操作 -->
 		<div class="button-container">

@@ -5,7 +5,7 @@ pushd %~dp0..
 set PROJECT_ROOT=%CD%
 
 :: 设置相关路径变量
-set FLUTTER_REPO_DIR=%PROJECT_ROOT%\flutter\build\host\outputs\repo
+set FLUTTER_REPO_DIR=%PROJECT_ROOT%\flutter\packages\meeting_module\build\host\outputs\repo
 set CONFIG_FILE=%PROJECT_ROOT%\uni_modules\ao-flutter\utssdk\app-android\config.json
 
 :: 获取仓库的绝对路径并转换为左斜杠

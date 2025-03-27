@@ -27,6 +27,15 @@
           "class": "uni.dcloud.io.uniplugin_richalert.RichAlertModule"
         }
       ]
-    }
+    },
+    {
+      "plugins": [
+        {
+          "type": "component",
+          "name": "ao-flutter",
+          "class": "uts.sdk.modules.aoFlutter.AoFlutterComponent"
+        }
+      ]
+  }
   ]
 }

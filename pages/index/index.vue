@@ -50,6 +50,12 @@
 					name:'UTS控件测试',
 					open:false,
 					url:'/pages/sample/test-uts'
+				},
+				{
+					id:'test_cross_platform',
+					name:'跨平台组件测试',
+					open:false,
+					url:'/pages/sample/test-cross-platform'
 				}],
 				navigateFlag: false
 			}

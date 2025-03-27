@@ -13,7 +13,7 @@
 	// 定义组件
 	export default {
 		// 组件名称
-		name: "uts-flutter",
+		name: "ao-flutter",
 
 		// 组件事件声明
 		emits: ['viewready'],
@@ -31,21 +31,21 @@
 		methods: {
 			// 对外公开的start方法
 			start() {
-				console.log("UTS-Flutter: start方法被调用");
+				console.log("ao-flutter: start方法被调用");
 			}
 		},
 
 		// 生命周期方法
 		created() {
-			console.log("UTS-Flutter: created生命周期");
+			console.log("ao-flutter: created生命周期");
 		},
 
 		NVBeforeLoad() {
-			console.log("UTS-Flutter: NVBeforeLoad生命周期");
+			console.log("ao-flutter: NVBeforeLoad生命周期");
 		},
 
 		NVLoad() : FlutterFrameLayout {
-			console.log("UTS-Flutter: NVLoad生命周期");
+			console.log("ao-flutter: NVLoad生命周期");
 
 			// 创建自定义的Kotlin实现的FrameLayout
 			const flutterView = new FlutterFrameLayout($androidContext!);
@@ -57,23 +57,23 @@
 		},
 
 		NVLoaded() {
-			console.log("UTS-Flutter: NVLoaded生命周期");
+			console.log("ao-flutter: NVLoaded生命周期");
 		},
 
 		NVLayouted() {
-			console.log("UTS-Flutter: NVLayouted生命周期");
+			console.log("ao-flutter: NVLayouted生命周期");
 		},
 
 		NVBeforeUnload() {
-			console.log("UTS-Flutter: NVBeforeUnload生命周期");
+			console.log("ao-flutter: NVBeforeUnload生命周期");
 		},
 
 		NVUnloaded() {
-			console.log("UTS-Flutter: NVUnloaded生命周期");
+			console.log("ao-flutter: NVUnloaded生命周期");
 		},
 
 		unmounted() {
-			console.log("UTS-Flutter: unmounted生命周期");
+			console.log("ao-flutter: unmounted生命周期");
 		}
 	}
 </script>

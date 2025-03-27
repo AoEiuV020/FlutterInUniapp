@@ -17,7 +17,7 @@ powershell -Command "$content = Get-Content '%CONFIG_FILE%' -Raw; $pattern = 'ma
 
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to update config.json!
-    exit /b %ERRORLEVEL%
+    goto error
 )
 
 echo.
@@ -26,3 +26,10 @@ echo New path: %REPO_PATH%
 
 :: 恢复原目录
 popd
+goto eof
+
+:error
+popd
+exit /b 1
+
+:eof

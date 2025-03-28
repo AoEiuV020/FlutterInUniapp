@@ -1,8 +1,8 @@
 <template>
-	<view class="container">
+	<div class="container">
 		<ao-flutter v-if="isAndroid" ref="flutterView" @viewready="onViewReady" class="flutter-view"></ao-flutter>
 		<web-view v-else :src="webviewUrl" class="web-view"></web-view>
-	</view>
+	</div>
 </template>
 
 <script>
@@ -38,11 +38,16 @@ export default {
 .container {
 	position: relative;
 	flex: 1;
-	width: 100%;
-	height: 100vh;
 }
 
-.flutter-view,
+.flutter-view {
+	position: absolute;
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	z-index: 1;
+}
 .web-view {
 	position: absolute;
 	left: 0;
@@ -50,6 +55,6 @@ export default {
 	top: 0;
 	bottom: 0;
 	width: 100%;
-	height: 100%;
+	height: 100vh;
 }
 </style>

@@ -1,7 +1,7 @@
 <template>
 	<div class="content">
 		<!-- 跨平台组件，铺满屏幕并置于底部 -->
-		<ao-cross-flutter ref="crossFlutterView" class="flutter-container" webviewUrl="https://example.com"></ao-cross-flutter>	
+		<ao-cross-flutter ref="crossFlutterView" class="flutter-container" webviewUrl="https://aoeiuv020.github.io/livekit_meeting/"></ao-cross-flutter>	
 		
 		<!-- 按钮，放在顶部以便于操作 -->
 		<div class="button-container">

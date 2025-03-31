@@ -138,4 +138,6 @@ wxcomponents/**/*.vue
 wxcomponents/**/*.css
 .hbuilderx/
 
+# uniapp导出给安卓用的资源和代码忽略，
 /android/app/src/main/assets/apps/__UNI__*/
+/android/ao-flutter/src/main/java/*.kt

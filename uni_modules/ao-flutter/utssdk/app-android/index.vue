@@ -18,9 +18,6 @@
 		// 组件事件声明
 		emits: ['viewready'],
 
-		// 显式暴露方法
-		expose: ['start'],
-
 		// 组件内部变量
 		data() {
 			return {
@@ -29,9 +26,23 @@
 
 		// 方法实现
 		methods: {
-			// 对外公开的start方法
-			start() {
-				console.log("ao-flutter: start方法被调用");
+			// 发送通知到Flutter
+			sendNotification(method: String, parameters: UTSJSONObject|null) {
+				console.log("ao-flutter: sendNotification方法被调用");
+				// 调用FlutterFrameLayout的sendNotification方法
+				this.$el?.sendNotification(method, parameters?.parse());
+			},
+			// 注册方法处理器
+			registerMethod(method: String, callback: (parameters: any|null) => any|null) {
+				console.log("ao-flutter: registerMethod方法被调用");
+				// 调用FlutterFrameLayout的registerMethod方法
+				this.$el?.registerMethod(method, callback);
+			},
+			// 注销方法处理器
+			unregisterMethod(method: String) {
+				console.log("ao-flutter: unregisterMethod方法被调用");
+				// 调用FlutterFrameLayout的unregisterMethod方法
+				this.$el?.unregisterMethod(method);
 			}
 		},
 

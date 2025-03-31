@@ -22,7 +22,8 @@ export default {
 	methods: {
 		start() {
 			if (this.isAndroid) {
-				this.$refs.flutterView.start();
+				console.log('start click');
+				this.$refs.flutterView.sendNotification('hangUp', null);
 			} else {
 				console.log('在非Android平台使用webview');
 			}

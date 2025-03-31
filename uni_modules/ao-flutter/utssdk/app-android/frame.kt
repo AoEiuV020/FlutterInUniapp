@@ -5,6 +5,7 @@ import android.util.Log
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
 import com.aoeiuv020.meeting_flutter.BaseEventListener
+import com.aoeiuv020.meeting_flutter.EventListener
 import com.aoeiuv020.meeting_flutter.LivekitDemoFragment
 import com.aoeiuv020.meeting_flutter.LivekitDemoOptions
 
@@ -16,7 +17,21 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
 
     private val TAG = "FlutterContainer"
     private lateinit var flutterFragment: LivekitDemoFragment
+    private val methodHandlers = mutableMapOf<String, (Any?) -> Any?>()
 
+    fun sendNotification(method: String, parameters: Any?) {
+        post {
+            flutterFragment.invokeMethod(method, parameters, null)
+        }
+    }
+
+    fun registerMethod(method: String, callback: (Any?) -> Any?) {
+        methodHandlers[method] = callback
+    }
+
+    fun unregisterMethod(method: String) {
+        methodHandlers.remove(method)
+    }
     init {
         Log.d(TAG, "初始化Flutter容器")
         // 初始化Flutter Fragment
@@ -47,7 +62,10 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
                     name = "uniapp",
                 )
             )
-            flutterFragment.eventListener = object : BaseEventListener() {
+            flutterFragment.eventListener = object : EventListener {
+                override fun onEvent(method: String, arguments: Any?): Any? {
+                    return methodHandlers[method]?.invoke(arguments)
+                }
             }
 
             // 确保FrameLayout有一个ID，否则Fragment无法添加

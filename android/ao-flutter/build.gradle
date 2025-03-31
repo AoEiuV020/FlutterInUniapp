@@ -27,7 +27,11 @@ android {
 }
 
 dependencies {
-    implementation 'com.aoeiuv020.meeting_module:flutter_release:1.0'
+    if (findProject(":flutter") != null) {
+        implementation(project(":flutter"))
+    } else {
+        implementation 'com.aoeiuv020.meeting_module:flutter_release:1.0'
+    }
     compileOnly fileTree(dir: '../app/libs', include: ['*.aar'])
     compileOnly 'com.alibaba:fastjson:1.1.46.android'
     compileOnly 'org.jetbrains.kotlin:kotlin-gradle-plugin:1.5.10'

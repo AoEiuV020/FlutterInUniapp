@@ -4,3 +4,7 @@ include ':uniplugin_component'
 include ':uniplugin_richalert'
 include ':uts-toast'
 include ':ao-flutter'
+
+apply from: new File(rootDir.getAbsolutePath() + "/gradle/props.gradle.kts")
+apply from: new File(rootDir.getAbsolutePath() + "/gradle/project.gradle.kts")
+apply from: new File(rootDir.getAbsolutePath() + "/gradle/flutter.gradle.kts")

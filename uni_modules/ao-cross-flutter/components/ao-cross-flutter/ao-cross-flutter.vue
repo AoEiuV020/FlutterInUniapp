@@ -23,8 +23,8 @@ export default {
 		start() {
 			if (this.isAndroid) {
 				console.log('start click');
-				this.$refs.flutterView.sendNotification('setVideoMute', {
-					muted: true
+				this.$refs.flutterView.registerMethod('onAudioMuteChanged', (p) => {
+					console.log('静音状态变化：', p.muted);
 				});
 			} else {
 				console.log('在非Android平台使用webview');

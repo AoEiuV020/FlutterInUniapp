@@ -9,6 +9,7 @@
 
 	// 导入自定义的Kotlin类
 	import FlutterFrameLayout from 'flutter.FlutterFrameLayout';
+	import JSCallback from 'com.taobao.weex.bridge.JSCallback';
 
 	// 定义组件
 	export default {
@@ -33,10 +34,12 @@
 				this.$el?.sendNotification(method, parameters);
 			},
 			// 注册方法处理器
-			registerMethod(method: String, callback: (parameters: any|null) => any|null) {
+			registerMethod(method: String, callback: JSCallback) {
 				console.log("ao-flutter: registerMethod方法被调用");
 				// 调用FlutterFrameLayout的registerMethod方法
-				this.$el?.registerMethod(method, callback);
+				this.$el?.registerMethod(method, (p) => {
+					callback.invoke(p);
+				});
 			},
 			// 注销方法处理器
 			unregisterMethod(method: String) {

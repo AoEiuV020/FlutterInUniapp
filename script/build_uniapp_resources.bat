@@ -14,8 +14,8 @@ set UNI_APP_ID=__UNI__94F753A
 
 :: 执行cli命令发布资源
 echo 正在发布资源...
-:: cli只支持gbk可能导致乱码，暂无解，
-cli publish --platform APP --type appResource --project "%PROJECT_ROOT%"
+:: cli只支持gbk可能导致乱码，这里用powershell处理,
+cli publish --platform APP --type appResource --project "%PROJECT_ROOT%" | powershell -Command "& {$reader = New-Object System.IO.StreamReader([System.Console]::OpenStandardInput(), [System.Text.Encoding]::GetEncoding('gbk'));while ($line = $reader.ReadLine()) {Write-Output $line;}$reader.Close();}"
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to publish resources!
     goto error

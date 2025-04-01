@@ -27,10 +27,10 @@
 		// 方法实现
 		methods: {
 			// 发送通知到Flutter
-			sendNotification(method: String, parameters: UTSJSONObject|null) {
+			sendNotification(method: String, parameters: any|null) {
 				console.log("ao-flutter: sendNotification方法被调用");
 				// 调用FlutterFrameLayout的sendNotification方法
-				this.$el?.sendNotification(method, parameters?.parse());
+				this.$el?.sendNotification(method, parameters);
 			},
 			// 注册方法处理器
 			registerMethod(method: String, callback: (parameters: any|null) => any|null) {

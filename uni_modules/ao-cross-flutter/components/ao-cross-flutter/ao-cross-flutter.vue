@@ -23,7 +23,9 @@ export default {
 		start() {
 			if (this.isAndroid) {
 				console.log('start click');
-				this.$refs.flutterView.sendNotification('hangUp', null);
+				this.$refs.flutterView.sendNotification('setVideoMute', {
+					muted: true
+				});
 			} else {
 				console.log('在非Android平台使用webview');
 			}

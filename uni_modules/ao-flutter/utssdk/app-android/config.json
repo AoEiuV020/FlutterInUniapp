@@ -5,7 +5,7 @@
 	],
 	"project": {
 		"repositories": [
-			"maven { url rootProject.file('D:/aoeiuv020/git/FlutterInUniapp/flutter/packages/meeting_module/build/host/outputs/repo') } //repoFlutter",
+			"maven { url rootProject.file('/Users/aoeiuv/git/FlutterInUniapp/flutter/packages/meeting_module/build/host/outputs/repo') } //repoFlutter",
 			"maven { url 'https://storage.googleapis.com/download.flutter.io' }"
 		]
 	}

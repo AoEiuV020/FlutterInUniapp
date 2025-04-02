@@ -16,8 +16,8 @@ if [ -z "$REPO_PATH" ]; then
     exit 1
 fi
 
-# 使用sed更新config.json文件
-sed -i.bak "s|maven { url rootProject\.file([^)]*) } //repoFlutter|maven { url rootProject.file('$REPO_PATH') } //repoFlutter|" "$CONFIG_FILE"
+# 使用sed直接更新config.json文件
+sed -i '' "s|maven { url rootProject\.file([^)]*) } //repoFlutter|maven { url rootProject.file('$REPO_PATH') } //repoFlutter|" "$CONFIG_FILE"
 
 if [ $? -ne 0 ]; then
     echo "Error: Failed to update config.json!"

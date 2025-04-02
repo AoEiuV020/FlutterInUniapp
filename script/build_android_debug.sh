@@ -13,7 +13,7 @@ TARGET_DIR="$PROJECT_ROOT/unpackage/debug"
 TARGET_APK="$TARGET_DIR/android_debug.apk"
 
 # 添加debug属性
-sed -i.bak 's/<hbuilder>/<hbuilder debug="true" syncDebug="true">/' "$DCLOUD_CONTROL"
+sed -i '' 's/<hbuilder>/<hbuilder debug="true" syncDebug="true">/' "$DCLOUD_CONTROL"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to modify dcloud_control.xml"
     exit 1
@@ -26,12 +26,11 @@ echo "正在构建Android自定义基座..."
 BUILD_STATUS=$?
 
 # 恢复dcloud_control.xml
-sed -i.bak 's/<hbuilder debug="true" syncDebug="true">/<hbuilder>/' "$DCLOUD_CONTROL"
+sed -i '' 's/<hbuilder debug="true" syncDebug="true">/<hbuilder>/' "$DCLOUD_CONTROL"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to restore dcloud_control.xml"
     exit 1
 fi
-rm -f "${DCLOUD_CONTROL}.bak"
 
 # 检查构建是否成功
 if [ $BUILD_STATUS -ne 0 ]; then

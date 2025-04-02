@@ -6,6 +6,12 @@
 </template>
 
 <script>
+import {
+  JSONRPCServerAndClient,
+  JSONRPCServer,
+  JSONRPCClient,
+} from '../../../ao-json-rpc/js_sdk';
+
 export default {
 	name: 'ao-cross-flutter',
 	props: {
@@ -15,20 +21,37 @@ export default {
 		}
 	},
 	data() {
+		const server = new JSONRPCServer();
+		const client = new JSONRPCClient((request) => {
+		console.log('send: ', JSON.stringify(request));
+		  try {
+			  if (this.isAndroid) {
+				 this.$refs.flutterView.sendJsonRpc(JSON.stringify(request));
+			  } else {
+			  }
+		    return Promise.resolve();
+		  } catch (error) {
+		    return Promise.reject(error);
+		  }
+		});
 		return {
-			isAndroid: uni.getSystemInfoSync().platform === 'android'
+			isAndroid: uni.getSystemInfoSync().platform === 'android',
+			serverAndClient: new JSONRPCServerAndClient(server, client),
+		}
+	},
+	mounted() {
+		console.log("mounted ", this.$refs.flutterView);
+		if (this.isAndroid) {
+			this.$refs.flutterView.registerJsonRpc((s) => {
+				this.serverAndClient.receiveAndSend(JSON.parse(s));
+			});
+		} else {
+			console.log('receive: ', JSON.stringify(request));	  
 		}
 	},
 	methods: {
 		start() {
-			if (this.isAndroid) {
-				console.log('start click');
-				this.$refs.flutterView.registerMethod('onAudioMuteChanged', (p) => {
-					console.log('静音状态变化：', p.muted);
-				});
-			} else {
-				console.log('在非Android平台使用webview');
-			}
+			this.serverAndClient.notify('hangUp');
 		},
 		onViewReady() {
 			this.$emit('viewready');

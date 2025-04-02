@@ -1,6 +1,7 @@
 package flutter
 
 import android.content.Context
+import android.util.Base64
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
@@ -8,29 +9,34 @@ import com.aoeiuv020.meeting_flutter.BaseEventListener
 import com.aoeiuv020.meeting_flutter.EventListener
 import com.aoeiuv020.meeting_flutter.LivekitDemoFragment
 import com.aoeiuv020.meeting_flutter.LivekitDemoOptions
+import com.aoeiuv020.meeting_flutter.util.JsonUtil
+import io.flutter.embedding.android.FlutterFragment.NewEngineFragmentBuilder
+import io.flutter.embedding.android.RenderMode
 
 /**
  * Flutter容器
  * 基于FrameLayout的自定义控件
  */
 class FlutterFrameLayout(context: Context) : FrameLayout(context) {
-
+	companion object {
+		const val EVENT_JSON_RPC = "json-rpc-2.0"
+	}
     private val TAG = "FlutterContainer"
     private lateinit var flutterFragment: LivekitDemoFragment
-    private val methodHandlers = mutableMapOf<String, (Any?) -> Any?>()
+    private var handler:((String) -> Unit)? = null
 
-    fun sendNotification(method: String, parameters: Any?) {
+    fun sendJsonRpc(s: String) {
         post {
-            flutterFragment.invokeMethod(method, parameters, null)
+            flutterFragment.invokeMethod(EVENT_JSON_RPC, s, null)
         }
     }
 
-    fun registerMethod(method: String, callback: (Any?) -> Any?) {
-        methodHandlers[method] = callback
+    fun registerJsonRpc(callback: (String) -> Unit) {
+        this.handler = callback
     }
 
-    fun unregisterMethod(method: String) {
-        methodHandlers.remove(method)
+    fun unregisterJsonRpc() {
+        this.handler = null
     }
     init {
         Log.d(TAG, "初始化Flutter容器")
@@ -55,16 +61,28 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
             }
 
             // 如果不存在，则创建新的Fragment
-            flutterFragment = LivekitDemoFragment.create(
-                LivekitDemoOptions(
-                    serverUrl = "https://meet.livekit.io",
-                    room = "123456",
-                    name = "uniapp",
-                )
-            )
+            flutterFragment = NewEngineFragmentBuilder(LivekitDemoFragment::class.java)
+                .renderMode(RenderMode.texture)
+                .dartEntrypointArgs(
+                    listOf(
+                        "--jsonRpcMode",
+                        "--livekitDemoOptions",
+                        Base64.encodeToString(
+                            JsonUtil.toJson(LivekitDemoOptions(
+                                serverUrl = "https://meet.livekit.io",
+                                room = "123456",
+                                name = "uniapp",
+                            )).toByteArray(),
+                            Base64.NO_WRAP
+                        )
+                    )
+                ).build()
             flutterFragment.eventListener = object : EventListener {
                 override fun onEvent(method: String, arguments: Any?): Any? {
-                    return methodHandlers[method]?.invoke(arguments)
+                    if (method == EVENT_JSON_RPC) {
+                        handler?.invoke(arguments as String)
+                    }
+                    return null
                 }
             }
 

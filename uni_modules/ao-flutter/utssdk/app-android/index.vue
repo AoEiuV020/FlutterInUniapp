@@ -28,24 +28,21 @@
 		// 方法实现
 		methods: {
 			// 发送通知到Flutter
-			sendNotification(method: String, parameters: any|null) {
-				console.log("ao-flutter: sendNotification方法被调用");
-				// 调用FlutterFrameLayout的sendNotification方法
-				this.$el?.sendNotification(method, parameters);
+			sendJsonRpc(s: String) {
+				console.log("ao-flutter: sendJsonRpc方法被调用");
+				this.$el?.sendJsonRpc(s);
 			},
 			// 注册方法处理器
-			registerMethod(method: String, callback: JSCallback) {
-				console.log("ao-flutter: registerMethod方法被调用");
-				// 调用FlutterFrameLayout的registerMethod方法
-				this.$el?.registerMethod(method, (p) => {
+			registerJsonRpc(callback: JSCallback) {
+				console.log("ao-flutter: registerJsonRpc方法被调用");
+				this.$el?.registerJsonRpc((p) => {
 					callback.invoke(p);
 				});
 			},
 			// 注销方法处理器
-			unregisterMethod(method: String) {
-				console.log("ao-flutter: unregisterMethod方法被调用");
-				// 调用FlutterFrameLayout的unregisterMethod方法
-				this.$el?.unregisterMethod(method);
+			unregisterJsonRpc() {
+				console.log("ao-flutter: unregisterJsonRpc方法被调用");
+				this.$el?.unregisterJsonRpc();
 			}
 		},
 

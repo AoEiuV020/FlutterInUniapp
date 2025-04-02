@@ -33,6 +33,7 @@ if exist "%FLUTTER_DEST_DIR%" (
 
 :: 复制新的Kotlin源文件
 echo 正在复制新的Kotlin源文件...
+mkdir "%FLUTTER_DEST_DIR%" 2>nul
 xcopy /Y "%FLUTTER_SRC_DIR%\*.kt" "%FLUTTER_DEST_DIR%\"
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to copy new Kotlin files!
@@ -51,6 +52,7 @@ for /d %%i in ("%ASSETS_DIR%\__UNI__*") do (
 
 :: 创建软链接
 echo 正在创建资源软链接...
+mkdir "%ASSETS_DIR%" 2>nul
 mklink /j "%ASSETS_DIR%\%UNI_APP_ID%" "%UNPACKAGE_RESOURCES%\%UNI_APP_ID%"
 if %ERRORLEVEL% NEQ 0 (
     echo Error: Failed to create symbolic link!

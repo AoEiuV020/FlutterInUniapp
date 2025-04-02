@@ -31,6 +31,7 @@ fi
 
 # 复制新的Kotlin源文件
 echo "正在复制新的Kotlin源文件..."
+mkdir -p "$FLUTTER_DEST_DIR"
 cp -f "$FLUTTER_SRC_DIR"/*.kt "$FLUTTER_DEST_DIR/"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to copy new Kotlin files!"
@@ -39,14 +40,17 @@ fi
 
 # 删除assets目录下所有__UNI__开头的目录
 echo "正在清理旧的资源目录..."
-find "$ASSETS_DIR" -type d -name "__UNI__*" -exec rm -rf {} +
-if [ $? -ne 0 ]; then
-    echo "Error: Failed to remove old resource directories!"
-    exit 1
+if [ -d "$ASSETS_DIR" ]; then
+    find "$ASSETS_DIR" -type d -name "__UNI__*" -exec rm -rf {} +
+    if [ $? -ne 0 ]; then
+        echo "Error: Failed to remove old resource directories!"
+        exit 1
+    fi
 fi
 
 # 创建软链接
 echo "正在创建资源软链接..."
+mkdir -p "$ASSETS_DIR"
 ln -sfn "$UNPACKAGE_RESOURCES/$UNI_APP_ID" "$ASSETS_DIR/$UNI_APP_ID"
 if [ $? -ne 0 ]; then
     echo "Error: Failed to create symbolic link!"

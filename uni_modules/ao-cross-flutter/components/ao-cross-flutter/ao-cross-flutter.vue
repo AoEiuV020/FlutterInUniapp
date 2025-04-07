@@ -51,7 +51,14 @@ export default {
 	},
 	methods: {
 		start() {
-			this.serverAndClient.notify('hangUp');
+			this.serverAndClient.notify('setInterceptHangUpEnabled', { enabled: true });
+			this.serverAndClient.addMethod('interceptHangUp', () => {
+				console.log('interceptHangUp');
+				this.serverAndClient.notify('hangUp');
+				return {
+					hangUp: true
+				};
+			})
 		},
 		onViewReady() {
 			this.$emit('viewready');

@@ -5,7 +5,6 @@ import android.util.Base64
 import android.util.Log
 import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
-import com.aoeiuv020.meeting_flutter.BaseEventListener
 import com.aoeiuv020.meeting_flutter.EventListener
 import com.aoeiuv020.meeting_flutter.LivekitDemoFragment
 import com.aoeiuv020.meeting_flutter.LivekitDemoOptions
@@ -18,12 +17,13 @@ import io.flutter.embedding.android.RenderMode
  * 基于FrameLayout的自定义控件
  */
 class FlutterFrameLayout(context: Context) : FrameLayout(context) {
-	companion object {
-		const val EVENT_JSON_RPC = "json-rpc-2.0"
-	}
+    companion object {
+        const val EVENT_JSON_RPC = "json-rpc-2.0"
+    }
+
     private val TAG = "FlutterContainer"
     private lateinit var flutterFragment: LivekitDemoFragment
-    private var handler:((String) -> Unit)? = null
+    private var handler: ((String) -> Unit)? = null
 
     fun sendJsonRpc(s: String) {
         post {
@@ -38,6 +38,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
     fun unregisterJsonRpc() {
         this.handler = null
     }
+
     init {
         Log.d(TAG, "初始化Flutter容器")
         // 初始化Flutter Fragment
@@ -57,26 +58,27 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
             val existingFragment = activity.supportFragmentManager.findFragmentByTag(fragmentTag)
             if (existingFragment != null && existingFragment is LivekitDemoFragment) {
                 flutterFragment = existingFragment
-                return
-            }
-
-            // 如果不存在，则创建新的Fragment
-            flutterFragment = NewEngineFragmentBuilder(LivekitDemoFragment::class.java)
-                .renderMode(RenderMode.texture)
-                .dartEntrypointArgs(
-                    listOf(
-                        "--jsonRpcMode",
-                        "--livekitDemoOptions",
-                        Base64.encodeToString(
-                            JsonUtil.toJson(LivekitDemoOptions(
-                                serverUrl = "https://meet.livekit.io",
-                                room = "123456",
-                                name = "uniapp",
-                            )).toByteArray(),
-                            Base64.NO_WRAP
+            } else {
+                // 如果不存在，则创建新的Fragment
+                flutterFragment = NewEngineFragmentBuilder(LivekitDemoFragment::class.java)
+                    .renderMode(RenderMode.texture)
+                    .dartEntrypointArgs(
+                        listOf(
+                            "--jsonRpcMode",
+                            "--livekitDemoOptions",
+                            Base64.encodeToString(
+                                JsonUtil.toJson(
+                                    LivekitDemoOptions(
+                                        serverUrl = "https://meet.livekit.io",
+                                        room = "123456",
+                                        name = "uniapp",
+                                    )
+                                ).toByteArray(),
+                                Base64.NO_WRAP
+                            )
                         )
-                    )
-                ).build()
+                    ).build()
+            }
             flutterFragment.eventListener = object : EventListener {
                 override fun onEvent(method: String, arguments: Any?): Any? {
                     if (method == EVENT_JSON_RPC) {
@@ -106,6 +108,13 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
 
     override fun onDetachedFromWindow() {
         super.onDetachedFromWindow()
+        // 清理Fragment和事件监听器
+        val activity = context as FragmentActivity
+        val transaction = activity.supportFragmentManager.beginTransaction()
+        transaction.remove(flutterFragment)
+        transaction.commit()
+        flutterFragment.eventListener = null
+        handler = null
         Log.d(TAG, "Flutter容器已从窗口分离")
     }
 

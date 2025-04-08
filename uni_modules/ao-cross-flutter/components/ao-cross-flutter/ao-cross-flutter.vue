@@ -23,12 +23,14 @@ export default {
 	data() {
 		const server = new JSONRPCServer();
 		const client = new JSONRPCClient((request) => {
-		console.log('send: ', JSON.stringify(request));
+		const str = JSON.stringify(request);
+		console.log('send: ', str);
 		  try {
 			  if (this.isAndroid) {
-				 this.$refs.flutterView.sendJsonRpc(JSON.stringify(request));
+				 this.$refs.flutterView.sendJsonRpc(str);
 			  } else {
-				 this.$refs.webView.window.postMessage(JSON.stringify(request), "*");
+				  const webView = this.$refs.webView;
+				 webView.iframe.contentWindow.postMessage(str, "*");
 			  }
 		    return Promise.resolve();
 		  } catch (error) {
@@ -48,6 +50,9 @@ export default {
 			});
 		} else {
 			window.addEventListener('message', (e) => {
+				if (!e||!e.data||e.data[0]!='{') {
+					return;
+				}
 				const data = JSON.parse(e.data);
 				console.log('webview message: ', data);
 				if (data && data.method && data.jsonrpc == '2.0') {

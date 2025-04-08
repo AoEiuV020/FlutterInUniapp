@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<ao-flutter v-if="isAndroid" ref="flutterView" @viewready="onViewReady" class="flutter-view"></ao-flutter>
+		<ao-flutter v-if="isAndroid" ref="flutterView" class="flutter-view"></ao-flutter>
 		<web-view v-else :src="webviewUrl" ref="webView" class="web-view"
 			allow="camera;microphone;display-capture;fullscreen"></web-view>
 	</div>
@@ -78,9 +78,6 @@ export default {
 				};
 			});
 		},
-		onViewReady() {
-			this.$emit("viewready");
-		},
 	},
 };
 </script>
@@ -107,6 +104,5 @@ export default {
 	top: 0;
 	bottom: 0;
 	width: 100%;
-	height: 100vh;
-}
+	height: 100vh;}
 </style>

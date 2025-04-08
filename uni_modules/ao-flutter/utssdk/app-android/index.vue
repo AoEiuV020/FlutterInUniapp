@@ -16,9 +16,6 @@
 		// 组件名称
 		name: "ao-flutter",
 
-		// 组件事件声明
-		emits: ['viewready'],
-
 		// 组件内部变量
 		data() {
 			return {
@@ -60,9 +57,6 @@
 
 			// 创建自定义的Kotlin实现的FrameLayout
 			const flutterView = new FlutterFrameLayout($androidContext!);
-
-			// 发送准备完成事件
-			this.$emit("viewready");
 
 			return flutterView;
 		},

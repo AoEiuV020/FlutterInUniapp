@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<ao-flutter v-if="isAndroid" ref="flutterView" @viewready="onViewReady" class="flutter-view"></ao-flutter>
-		<web-view v-else :src="webviewUrl" class="web-view"></web-view>
+		<web-view v-else :src="webviewUrl" class="web-view" allow="camera;microphone;display-capture;fullscreen"></web-view>
 	</div>
 </template>
 

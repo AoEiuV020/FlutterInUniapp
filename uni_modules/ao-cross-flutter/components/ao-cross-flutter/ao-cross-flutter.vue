@@ -1,7 +1,7 @@
 <template>
 	<div class="container">
 		<ao-flutter v-if="isAndroid" ref="flutterView" @viewready="onViewReady" class="flutter-view"></ao-flutter>
-		<web-view v-else :src="webviewUrl" class="web-view" allow="camera;microphone;display-capture;fullscreen"></web-view>
+		<web-view v-else :src="webviewUrl" ref="webView" class="web-view" allow="camera;microphone;display-capture;fullscreen"></web-view>
 	</div>
 </template>
 
@@ -28,6 +28,7 @@ export default {
 			  if (this.isAndroid) {
 				 this.$refs.flutterView.sendJsonRpc(JSON.stringify(request));
 			  } else {
+				 this.$refs.webView.window.postMessage(JSON.stringify(request), "*");
 			  }
 		    return Promise.resolve();
 		  } catch (error) {
@@ -46,8 +47,17 @@ export default {
 				this.serverAndClient.receiveAndSend(JSON.parse(s));
 			});
 		} else {
-			console.log('receive: ', JSON.stringify(request));	  
+			window.addEventListener('message', (e) => {
+				const data = JSON.parse(e.data);
+				console.log('webview message: ', data);
+				if (data && data.method && data.jsonrpc == '2.0') {
+					this.serverAndClient.receiveAndSend(data);
+				}
+			});
 		}
+		this.serverAndClient.addMethod('onAudioMuteChanged', (p) => {
+			console.log('onAudioMuteChanged: ', p.muted);
+		})
 	},
 	methods: {
 		start() {

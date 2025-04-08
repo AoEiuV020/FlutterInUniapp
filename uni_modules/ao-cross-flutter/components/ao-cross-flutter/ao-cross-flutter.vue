@@ -56,7 +56,7 @@ export default {
 				console.log('interceptHangUp');
 				this.serverAndClient.notify('hangUp');
 				return {
-					hangUp: true
+					intercept: true
 				};
 			})
 		},

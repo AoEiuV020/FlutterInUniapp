@@ -30,10 +30,12 @@ export default {
 		if (this.isAndroid) {
 			const flutterView = this.$refs.flutterView;
 			this.api.bind((request) => {
-				flutterView.sendJsonRpc(JSON.stringify(request));
+				const str = JSON.stringify(request);
+				console.log('rpc send: ', str);
+				flutterView.sendJsonRpc(str);
 			});
 			flutterView.registerJsonRpc((data) => {
-				console.log('flutterView: ', data);
+				console.log('rpc receive: ', data);
 				if (data && typeof data === 'string') {
 					try {
 						const jsonData = JSON.parse(data);
@@ -46,12 +48,14 @@ export default {
 		} else {
 			const webView = this.$refs.webView;
 			this.api.bind((request) => {
-				console.log('www: ', JSON.stringify(request));
-				webView.iframe.contentWindow.postMessage(JSON.stringify(request), '*');
+				const str = JSON.stringify(request);
+				console.log('rpc send: ', str);
+				webView.iframe.contentWindow.postMessage(str, '*');
 			});
 			window.addEventListener("message", (event) => {
 				if (!event || !event.data) return;
 				try {
+					console.log('rpc receive: ', event.data);
 					const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
 					this.api.handleMessage(data);
 				} catch (error) {

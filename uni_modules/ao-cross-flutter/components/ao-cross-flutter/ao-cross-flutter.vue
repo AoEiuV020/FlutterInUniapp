@@ -8,77 +8,79 @@
 
 <script>
 import {
-	JSONRPCServerAndClient,
-	JSONRPCServer,
-	JSONRPCClient,
-} from "../../../ao-json-rpc/js_sdk";
+	LivekitDemoOptions,
+	MeetExternalAPI
+} from './meeting-external-api.js';
 
 export default {
 	name: "ao-cross-flutter",
 	props: {
-		webviewUrl: {
-			type: String,
-			default: "",
-		},
+		domain: String,
+		options: Object,
 	},
 	data() {
-		const server = new JSONRPCServer();
-		const client = new JSONRPCClient((request) => {
-			const str = JSON.stringify(request);
-			console.log("send: ", str);
-			try {
-				if (this.isAndroid) {
-					this.$refs.flutterView.sendJsonRpc(str);
-				} else {
-					const webView = this.$refs.webView;
-					webView.iframe.contentWindow.postMessage(str, "*");
-				}
-				return Promise.resolve();
-			} catch (error) {
-				return Promise.reject(error);
-			}
-		});
+		const api = new MeetExternalAPI(this.domain, this.options);
 		return {
 			isAndroid: uni.getSystemInfoSync().platform === "android",
-			serverAndClient: new JSONRPCServerAndClient(server, client),
+			webviewUrl: api.getIframeUrl(),
+			api: api,
 		};
 	},
 	mounted() {
-		console.log("mounted ", this.$refs.flutterView);
 		if (this.isAndroid) {
-			this.$refs.flutterView.registerJsonRpc((s) => {
-				this.serverAndClient.receiveAndSend(JSON.parse(s));
+			const flutterView = this.$refs.flutterView;
+			this.api.bind((request) => {
+				flutterView.sendJsonRpc(JSON.stringify(request));
+			});
+			flutterView.registerJsonRpc((data) => {
+				console.log('flutterView: ', data);
+				if (data && typeof data === 'string') {
+					try {
+						const jsonData = JSON.parse(data);
+						this.api.handleMessage(jsonData);
+					} catch (error) {
+						console.error('Invalid JSON data:', error);
+					}
+				}
 			});
 		} else {
-			window.addEventListener("message", (e) => {
-				if (!e || !e.data || e.data[0] != "{") {
-					return;
-				}
-				const data = JSON.parse(e.data);
-				console.log("webview message: ", data);
-				if (data && data.method && data.jsonrpc == "2.0") {
-					this.serverAndClient.receiveAndSend(data);
+			const webView = this.$refs.webView;
+			this.api.bind((request) => {
+				console.log('www: ', JSON.stringify(request));
+				webView.iframe.contentWindow.postMessage(JSON.stringify(request), '*');
+			});
+			window.addEventListener("message", (event) => {
+				if (!event || !event.data) return;
+				try {
+					const data = typeof event.data === 'string' ? JSON.parse(event.data) : event.data;
+					this.api.handleMessage(data);
+				} catch (error) {
+					console.error('Invalid message data:', error);
 				}
 			});
 		}
-		this.serverAndClient.addMethod("onAudioMuteChanged", (p) => {
-			console.log("onAudioMuteChanged: ", p.muted);
-		});
 	},
 	methods: {
-		start() {
-			this.serverAndClient.notify("setInterceptHangUpEnabled", {
-				enabled: true,
-			});
-			this.serverAndClient.addMethod("interceptHangUp", () => {
-				console.log("interceptHangUp");
-				this.serverAndClient.notify("hangUp");
-				return {
-					intercept: true,
-				};
-			});
+
+		hangUp() {
+			this.api.hangUp();
+		},
+		setAudioMute(muted) {
+			this.api.setAudioMute(muted);
+		},
+		setVideoMute(muted) {
+			this.api.setVideoMute(muted);
+		},
+
+		interceptHangUp(listener) {
+			this.api.interceptHangUp(listener);
 		},
 	},
+	beforeDestroy() {
+		if (this.api) {
+			this.api.destroy();
+		}
+	}
 };
 </script>
 
@@ -104,5 +106,6 @@ export default {
 	top: 0;
 	bottom: 0;
 	width: 100%;
-	height: 100vh;}
+	height: 100vh;
+}
 </style>

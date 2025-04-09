@@ -1,8 +1,7 @@
 <template>
 	<div class="content">
 		<!-- 跨平台组件，铺满屏幕并置于底部 -->
-		<ao-cross-flutter ref="crossFlutterView" class="flutter-container"
-			webviewUrl="https://aoeiuv020.github.io/livekit_meeting/"></ao-cross-flutter>
+		<ao-cross-flutter ref="crossFlutterView" class="flutter-container" :domain="domain" :options="options"></ao-cross-flutter>
 
 		<!-- 按钮，放在顶部以便于操作 -->
 		<div class="button-container">
@@ -12,45 +11,64 @@
 </template>
 
 <script>
-export default {
-	onLoad() {
-		console.log('页面加载完成');
-	},
-	methods: {
-		onTestClick() {
-			console.log('按钮被点击');
-			this.$refs.crossFlutterView.start();
+	import {
+		MeetExternalAPI
+	} from "../../uni_modules/ao-cross-flutter/components/ao-cross-flutter/meeting-external-api"
+
+	export default {
+		data() {
+			return {
+				isAndroid: uni.getSystemInfoSync().platform === "android",
+				domain: "https://aoeiuv020.github.io/livekit_meeting/",
+				options: {
+					serverUrl: "https://meet.livekit.io",
+					room: "123456",
+					name: "uni",
+				},
+			};
+		},
+		onLoad() {
+			console.log('页面加载完成');
+		},
+		methods: {
+			onTestClick() {
+				console.log('按钮被点击');
+				this.$refs.crossFlutterView.interceptHangUp(() => {
+					console.log("interceptHangUp");
+					this.$refs.crossFlutterView.hangUp();
+					return true;
+				});
+			}
 		}
 	}
-}
 </script>
 
 <style>
-.content {
-	flex: 1;
-	position: relative;
-}
+	.content {
+		flex: 1;
+		position: relative;
+	}
 
-.flutter-container {
-	position: absolute;
-	left: 0;
-	right: 0;
-	top: 0;
-	bottom: 0;
-}
+	.flutter-container {
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 0;
+		bottom: 0;
+	}
 
-.button-container {
-	position: absolute;
-	top: 100px;
-	left: 0;
-	right: 0;
-	z-index: 10;
-	align-items: center;
-	justify-content: center;
-}
+	.button-container {
+		position: absolute;
+		top: 100px;
+		left: 0;
+		right: 0;
+		z-index: 10;
+		align-items: center;
+		justify-content: center;
+	}
 
-.action-button {
-	width: 300px;
-	height: 50px;
-}
+	.action-button {
+		width: 300px;
+		height: 50px;
+	}
 </style>

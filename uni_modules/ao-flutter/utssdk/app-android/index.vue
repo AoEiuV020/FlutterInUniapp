@@ -33,7 +33,7 @@
 			registerJsonRpc(callback: JSCallback) {
 				console.log("ao-flutter: registerJsonRpc方法被调用");
 				this.$el?.registerJsonRpc((p) => {
-					callback.invoke(p);
+					callback.invokeAndKeepAlive(p);
 				});
 			},
 			// 注销方法处理器

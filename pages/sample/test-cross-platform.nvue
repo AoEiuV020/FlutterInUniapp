@@ -31,6 +31,19 @@ export default {
 	onLoad() {
 		console.log('页面加载完成');
 	},
+	mounted() {
+		console.log('mounted');
+		this.$refs.crossFlutterView.addListener('onAudioMuteChanged', (p) => {
+			console.log('onAudioMuteChanged', p.muted);
+		});
+		this.$refs.crossFlutterView.addListener('onVideoMuteChanged', (p) => {
+			console.log('onVideoMuteChanged', p.muted);
+		});
+		this.$refs.crossFlutterView.addListener('onDisconnected', () => {
+			console.log('onDisconnected');
+			uni.navigateBack();
+		});
+	},
 	methods: {
 		onTestClick() {
 			console.log('按钮被点击');

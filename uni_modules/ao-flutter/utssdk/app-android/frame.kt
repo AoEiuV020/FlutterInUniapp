@@ -65,6 +65,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
                     .dartEntrypointArgs(
                         listOf(
                             "--jsonRpcMode",
+                            "--keepWindowOpen",
                             "--livekitDemoOptions",
                             Base64.encodeToString(
                                 JsonUtil.toJson(

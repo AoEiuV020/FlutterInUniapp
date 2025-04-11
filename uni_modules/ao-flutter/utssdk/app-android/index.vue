@@ -4,33 +4,48 @@
 </template>
 
 <script lang="uts">
-	// 引用 Android 系统库
-	import FrameLayout from 'android.widget.FrameLayout';
-
-	// 导入自定义的Kotlin类
 	import FlutterFrameLayout from 'flutter.FlutterFrameLayout';
 	import JSCallback from 'com.taobao.weex.bridge.JSCallback';
+	import TextUtils from 'android.text.TextUtils';
 
 	// 定义组件
 	export default {
 		// 组件名称
 		name: "ao-flutter",
 
+		props: {
+			"optionsString": {
+				type: String,
+				default: ""
+			},
+		},
+		watch: {
+			"optionsString": {
+				handler(newValue : string, oldValue : string) {
+					if (!this.inited) {
+						this.inited = true;
+						this.$el?.initFlutterFragment(newValue);
+					}
+				},
+				immediate: true // 创建时是否通过此方法更新属性，默认值为false
+			},
+		},
 		// 组件内部变量
 		data() {
 			return {
+				inited: false,
 			}
 		},
 
 		// 方法实现
 		methods: {
 			// 发送通知到Flutter
-			sendJsonRpc(s: String) {
+			sendJsonRpc(s : String) {
 				console.log("ao-flutter: sendJsonRpc方法被调用");
 				this.$el?.sendJsonRpc(s);
 			},
 			// 注册方法处理器
-			registerJsonRpc(callback: JSCallback) {
+			registerJsonRpc(callback : JSCallback) {
 				console.log("ao-flutter: registerJsonRpc方法被调用");
 				this.$el?.registerJsonRpc((p) => {
 					callback.invokeAndKeepAlive(p);

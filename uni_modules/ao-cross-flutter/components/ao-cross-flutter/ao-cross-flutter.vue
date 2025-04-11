@@ -1,6 +1,6 @@
 <template>
 	<div class="container">
-		<ao-flutter v-if="isAndroid" ref="flutterView" class="flutter-view"></ao-flutter>
+		<ao-flutter v-if="isAndroid" :optionsString="optionsString" ref="flutterView" class="flutter-view"></ao-flutter>
 		<web-view v-else :src="webviewUrl" ref="webView" class="web-view"
 			allow="camera;microphone;display-capture;fullscreen"></web-view>
 	</div>
@@ -16,11 +16,13 @@ export default {
 		options: Object,
 	},
 	data() {
+		const isAndroid = uni.getSystemInfoSync().platform === "android";
 		const api = new MeetExternalAPI(this.domain, this.options);
 		return {
-			isAndroid: uni.getSystemInfoSync().platform === "android",
+			isAndroid: isAndroid,
 			webviewUrl: api.getIframeUrl(),
 			api: api,
+			optionsString: JSON.stringify(this.options),
 		};
 	},
 	mounted() {

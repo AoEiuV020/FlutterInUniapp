@@ -7,8 +7,6 @@ import android.widget.FrameLayout
 import androidx.fragment.app.FragmentActivity
 import com.aoeiuv020.meeting_flutter.EventListener
 import com.aoeiuv020.meeting_flutter.LivekitDemoFragment
-import com.aoeiuv020.meeting_flutter.LivekitDemoOptions
-import com.aoeiuv020.meeting_flutter.util.JsonUtil
 import io.flutter.embedding.android.FlutterFragment.NewEngineFragmentBuilder
 import io.flutter.embedding.android.RenderMode
 
@@ -41,14 +39,12 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
 
     init {
         Log.d(TAG, "初始化Flutter容器")
-        // 初始化Flutter Fragment
-        initFlutterFragment()
     }
 
     /**
      * 初始化Flutter Fragment
      */
-    private fun initFlutterFragment() {
+    fun initFlutterFragment(optionsString: String) {
         // 直接强制使用FragmentActivity
         val activity = context as FragmentActivity
 
@@ -68,13 +64,7 @@ class FlutterFrameLayout(context: Context) : FrameLayout(context) {
                             "--keepWindowOpen",
                             "--livekitDemoOptions",
                             Base64.encodeToString(
-                                JsonUtil.toJson(
-                                    LivekitDemoOptions(
-                                        serverUrl = "https://meet.livekit.io",
-                                        room = "123456",
-                                        name = "uniapp",
-                                    )
-                                ).toByteArray(),
+                                optionsString.toByteArray(),
                                 Base64.NO_WRAP
                             )
                         )

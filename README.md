@@ -33,7 +33,8 @@
 ### 构建步骤
 
 1. 构建Flutter AAR：
-   生成安卓依赖仓库，
+   生成安卓依赖仓库，  
+   或者直接复制仓库repo文件夹到./flutter/packages/meeting_module/build/host/outputs/repo
    ```
    script\build_flutter_aar.bat
    ```

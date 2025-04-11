@@ -22,36 +22,6 @@
 		data() {
 			return {
 				list: [{
-					id: 'ext-module',
-					name: '扩展 module',
-					open: false,
-					url: '/pages/sample/ext-module'
-				},
-				{
-					id: 'ext-component',
-					name: '扩展 component',
-					open: false,
-					url: '/pages/sample/ext-component'
-				},
-				{
-					id:'richAlert',
-					name:'插件示例RichAlert',
-					open:false,
-					url:'/pages/sample/richAlert'
-				},
-				{
-					id:'UTS_modules',
-					name:'UTS 原生插件',
-					open:false,
-					url:'/pages/sample/uts_toast'
-				},
-				{
-					id:'test_uts',
-					name:'UTS控件测试',
-					open:false,
-					url:'/pages/sample/test-uts'
-				},
-				{
 					id:'test_cross_platform',
 					name:'跨平台组件测试',
 					open:false,

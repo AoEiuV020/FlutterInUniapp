@@ -7,30 +7,6 @@
 			}
 		},
 		{
-			"path": "pages/sample/ext-module",
-			"style": {
-				"navigationBarTitleText": "扩展 module"
-			}
-		},
-		{
-			"path": "pages/sample/ext-component",
-			"style": {
-				"navigationBarTitleText": "扩展 component"
-			}
-		},
-		{
-			"path": "pages/sample/richAlert",
-			"style": {
-				"navigationBarTitleText": "RichAlert"
-			}
-		},
-		{
-			"path": "pages/sample/test-uts",
-			"style": {
-				"navigationBarTitleText": "UTS控件测试"
-			}
-		},
-		{
 			"path": "pages/sample/test-cross-platform",
 			"style": {
 				"navigationBarTitleText": "跨平台组件测试"

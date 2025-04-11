@@ -3,34 +3,6 @@
     {
       "plugins": [
         {
-          "type": "module",
-          "name": "TestModule",
-          "class": "io.dcloud.uniplugin.TestModule"
-        }
-      ]
-    },
-    {
-      "plugins": [
-        {
-          "type": "component",
-          "name": "myText",
-          "class": "io.dcloud.uniplugin.TestText"
-        }
-      ]
-    },
-    {
-      "hooksClass": "",
-      "plugins": [
-        {
-          "type": "module",
-          "name": "DCloud-RichAlert",
-          "class": "uni.dcloud.io.uniplugin_richalert.RichAlertModule"
-        }
-      ]
-    },
-    {
-      "plugins": [
-        {
           "type": "component",
           "name": "ao-flutter",
           "class": "uts.sdk.modules.aoFlutter.AoFlutterComponent"

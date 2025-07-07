@@ -1,0 +1,11 @@
+#!/bin/bash
+# 启动Chrome并禁用web安全选项，同时支持传入额外参数
+CHROME_PATH="/Applications/Google Chrome.app/Contents/MacOS/Google Chrome"
+
+if [ ! -f "$CHROME_PATH" ]; then
+    echo "Error: Chrome not found at $CHROME_PATH"
+    exit 1
+fi
+
+# 启动Chrome并传递所有参数
+"$CHROME_PATH" --disable-web-security "$@"
